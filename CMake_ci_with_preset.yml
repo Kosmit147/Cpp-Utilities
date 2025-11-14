@@ -1,0 +1,32 @@
+﻿name: CMake Windows Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: ${{ matrix.preset }}
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [ "Debug", "Release", "RelWithDebInfo", "MinSizeRel" ]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Set up VS developer command prompt
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Configure
+      run: cmake --preset ${{ matrix.preset }}
+
+    - name: Build
+      run: cmake --build --preset ${{ matrix.preset }}
