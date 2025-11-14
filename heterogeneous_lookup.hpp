@@ -19,7 +19,7 @@ struct StringHash
 template<typename T> struct Hash : std::hash<T> {};
 
 // String specialization to enable transparent lookup in unordered containers.
-template<> struct Hash<String> : StringHash {};
+template<> struct Hash<std::string> : StringHash {};
 
 template<typename Key, typename T, typename Hasher = Hash<Key>, typename KeyEqual = std::equal_to<>, typename Allocator = std::allocator<std::pair<const Key, T>>>
 using UnorderedMap = std::unordered_map<Key, T, Hasher, KeyEqual, Allocator>;
